@@ -1,54 +1,31 @@
-import uuid from 'react-uuid'
-import {Routes, Route, Link} from "react-router-dom";
-import {useState} from "react";
+import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography} from "@material-ui/core";
+import BasketItem from "./BasketItem";
 
-export default function Cart({cart, RemoveCart, onDecrement, onIncrement}) {
-    const cartLocal =  JSON.parse(localStorage.getItem('cart'));
-    // const [pro,setCart] = useState(cart)
-    // const Save= () => {
-    //    setCart(cartLocal)
-    // }
+export default function Cart({removeCart, onClose, cartOpen}) {
+    const cartLocal = JSON.parse(localStorage.getItem('cart'));
+
     return (
-        <div>
-            <Link to="/">
-                <button type="button">
-                    Home!
-                </button>
-            </Link>
-            {/*<button  onClick={() => Save()}>*/}
-            {/*    Save*/}
-            {/*</button>*/}
-            <table width={650}>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Count</th>
-                    <th>Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                {cartLocal.map((item) => (
-                    <tr key={uuid()}>
-                        <td>{item.name} </td>
-                        <td>
-                            <button
-                                disabled={item.count <= 0 ? 'disabled' : ''}
-                                onClick={() => onDecrement(item.id)}
-                            >-
-                            </button>
-                            {item.count}
-                            <button
-                                onClick={() => onIncrement(item.id)}
-                            >+
-                            </button>
-                        </td>
-                        <td>
-                            <button onClick={() => RemoveCart(item.id)}>X</button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
+        <Drawer
+            anchor="right"
+            open={cartOpen}
+            onClose={onClose}
+        >
+            <List sx={{width: '400px'}}>
+                456465465
+
+                <Divider/>
+                {!cartLocal.length ? (
+                        <ListItem>Basket empty</ListItem>
+                    ) :
+                    cartLocal.map((item) => (
+
+                        <>
+                            <BasketItem key={item.name} removeCart={removeCart}/>
+                        </>
+                    ))
+                }
+            </List>
+            <Divider/>
+        </Drawer>
     )
 }

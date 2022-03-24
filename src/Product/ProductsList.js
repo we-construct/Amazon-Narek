@@ -1,28 +1,19 @@
 import Product from "./Product";
 import uuid from 'react-uuid'
-export default function BodyCounts({items, AddCart}) {
-    return (
-        <table style={{width: 650}}>
-            {/*{JSON.stringify(items)}*/}
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Count</th>
-                <th>Buy</th>
-            </tr>
-            </thead>
-            <tbody>
-            {items.map((item) => (
-                <tr key={uuid()}>
-                    <Product key={item.id}
-                             item={item}
-                             AddCart={AddCart}
-                    />
-                </tr>
-            ))}
-            </tbody>
+import {Grid} from "@material-ui/core";
 
-        </table>
+export default function BodyCounts({items, addCart,handleClose,open}) {
+    return (
+        <Grid container spacing={2}>
+            {items.map((item) => (
+                <Product key={item.id}
+                         item={item}
+                         addCart={addCart}
+                         handleClose={handleClose}
+                         open={open}
+                />
+
+            ))}
+        </Grid>
     );
 }

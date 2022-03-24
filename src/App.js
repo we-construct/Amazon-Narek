@@ -4,12 +4,17 @@ import ProductsList from "./Product/ProductsList";
 import SearchProduct from "./Search/search";
 import Cart from "./Cart/Cart";
 import {Routes, Route, Link} from "react-router-dom";
+import Login from "./auht/Login";
+import Register from "./auht/Register";
+import Header from "./Header/header";
+import {Container} from "@material-ui/core";
 
 const initialProducts = [
     {
         name: 'banana',
         id: 1,
         count: 0,
+        quantity: 10,
         categories: ['mig'],
 
     },
@@ -17,35 +22,41 @@ const initialProducts = [
         name: 'tan',
         id: 2,
         count: 0,
+        quantity: 10,
         categories: ['asa', 'mig'],
     },
     {
         name: 'ban',
         id: 3,
         count: 0,
+        quantity: 10,
         categories: ['kam'],
     },
     {
         name: 'man',
         id: 4,
         count: 0,
+        quantity: 10,
         categories: ['man'],
     },
     {
         name: 'kan',
         id: 5,
         count: 0,
+        quantity: 10,
         categories: ['van'],
     },
 ];
 
 const categoryOptions = ['', 'mig', 'tan', 'kam', 'man', 'van']
+const cartLocal = JSON.parse(localStorage.getItem('cart'));
 
 function App() {
     const [products, setProducts] = useState(initialProducts)
     const [searchTerm, setSearchTerm] = useState("")
     const [selectTerm, setSelectTerm] = useState(null)
     const [cart, setCart] = useState([])
+    const [state, setCartOpen] = useState(false)
 
     useEffect(() => {
         if (searchTerm || selectTerm) {
@@ -56,11 +67,12 @@ function App() {
     }, [searchTerm, selectTerm])
 
     const searchProducts = () => {
+        // debugger
         const filteredProducts = initialProducts.filter(item => {
             if (searchTerm) {
                 return item.name.includes(searchTerm)
             }
-            if (selectTerm) {
+            if (selectTerm && selectTerm !== '') {
                 return item.categories.includes(selectTerm)
             }
         })
@@ -72,19 +84,20 @@ function App() {
     }
 
     const handleSelectChange = (event) => {
+        console.log(event.target.value);
         setSelectTerm(event.target.value)
     }
-    const AddCart = (id) => {
+    const addCart = (id) => {
         const product = products.find(i => i.id === id)
         const cartCopy = [...cart, {...product}]
         setCart(cartCopy)
         localStorage.setItem("cart", JSON.stringify(cartCopy));
     }
-    const RemoveCart = (id) => {
+    const removeCart = (id) => {
         setCart((cart.filter(product => product.id !== id)))
-        const cartLocal =  JSON.parse(localStorage.getItem('cart'));
-        let index = cartLocal.findIndex(function(o){
-            return o.id === id;
+        const cartLocal = JSON.parse(localStorage.getItem('cart'));
+        let index = cartLocal.findIndex(function (product) {
+            return product.id === id;
         })
         if (index !== -1) cartLocal.splice(index, 1);
         localStorage.removeItem('cart')
@@ -111,35 +124,55 @@ function App() {
         localStorage.setItem("cart", JSON.stringify(itemsCopy));
         setCart(itemsCopy)
     }
+
     return (
-        <Routes>
-            <Route path="/card" element={
-                <Cart cart={cart}
-                      RemoveCart={RemoveCart}
-                      onDecrement={onDecrement}
-                      onIncrement={onIncrement}
-                />
-            }/>
-            <Route path="/" element={
-                <div className="App">
-                    <Link to="/card">
-                        <button type="button">
-                            Cart! {cart.length}
-                        </button>
-                    </Link>
-                    <SearchProduct
-                        categoryOptions={categoryOptions}
-                        handleSearchChange={handleSearchChange}
-                        handleSelectChange={handleSelectChange}
-                    />
-                    <ProductsList
-                        items={products}
-                        AddCart={AddCart}
-                        RemoveCart={RemoveCart}
-                    />
-                </div>
-            }/>
-        </Routes>
+        <>
+            <Header
+                handleCart={() => setCartOpen(true)}
+                orderLen={cart ? cart.length : 0}
+
+            />
+            <Container>
+                <Routes>
+                    <Route path="/card" element={
+                        <Cart
+                            cartOpen={state}
+                            onClose={() => {
+                                setCartOpen(false)
+                            }}
+                            cart={cart}
+                            cartLocal={cartLocal}
+                            removeCart={removeCart}
+                            onDecrement={onDecrement}
+                            onIncrement={onIncrement}
+                        />
+                    }/>
+                    <Route path="/login" element={
+                        <Login
+                        />
+                    }/>
+                    <Route path="/register" element={
+                        <Register
+                        />
+                    }/>
+                    <Route path="/" element={
+                        <div className="App">
+                            <SearchProduct
+                                categoryOptions={categoryOptions}
+                                selectTerm={selectTerm}
+                                handleSearchChange={handleSearchChange}
+                                handleSelectChange={handleSelectChange}
+                            />
+                            <ProductsList
+                                items={products}
+                                addCart={addCart}
+                                removeCart={removeCart}
+                            />
+                        </div>
+                    }/>
+                </Routes>
+            </Container>
+        </>
     );
 }
 
