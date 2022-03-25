@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "../Css/loginStyless.css";
+import {Link} from "react-router-dom";
 
 export default function Login() {
     const [errorMessages, setErrorMessages] = useState({});
@@ -47,8 +48,14 @@ export default function Login() {
                     <input type="password" name="password" required/>
                     {renderErrorMessage("password")}
                 </div>
-                <div className="button-container">
-                    <input type="submit"/>
+                <div style={{display: "flex"}}>
+                    <div className="button-container">
+                        <input type="submit" value='Login'/>
+                    </div>
+                    <div className="button-container" style={{marginLeft: 80}}>
+                        <Link to="/register" style={{textDecoration: 'none'}}> <input type="submit" value='Sign Up'/>
+                        </Link>
+                    </div>
                 </div>
             </form>
         </div>

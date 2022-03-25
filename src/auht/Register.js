@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "../Css/loginStyless.css";
+import {Link} from "react-router-dom";
 
 export default function Register() {
 
@@ -26,15 +27,15 @@ export default function Register() {
         localStorage.setItem('users', JSON.stringify(users))
         const usersLocal = JSON.parse(localStorage.getItem('users'));
         const userData = usersLocal.find((item) => item.email === email.value)
-            if (userData) {
-                setErrorMessages({name: "email", message: errors.email});
-            } else if (password.value !== re_pass.value) {
-                setErrorMessages({name: "re_pass", message: errors.re_pass});
-            } else {
-                users.push(user)
-                localStorage.setItem('users', JSON.stringify(users))
-                setIsRegistered(true);
-            }
+        if (userData) {
+            setErrorMessages({name: "email", message: errors.email});
+        } else if (password.value !== re_pass.value) {
+            setErrorMessages({name: "re_pass", message: errors.re_pass});
+        } else {
+            users.push(user)
+            localStorage.setItem('users', JSON.stringify(users))
+            setIsRegistered(true);
+        }
     };
 
     const renderErrorMessage = (name) =>
@@ -67,8 +68,13 @@ export default function Register() {
                     <input type="password" name="re_pass" required/>
                     {renderErrorMessage("re_pass")}
                 </div>
+                <div style={{display: "flex"}}>
                 <div className="button-container">
-                    <input type="submit"/>
+                    <input type="submit" value='Register'/>
+                </div>
+                <div className="button-container" style={{marginLeft:80}}>
+                    <Link to="/login" style={{ textDecoration: 'none' }}>  <input type="submit" value='Sign In'/>  </Link>
+                </div>
                 </div>
             </form>
         </div>

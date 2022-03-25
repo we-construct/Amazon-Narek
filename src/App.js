@@ -1,19 +1,19 @@
 import "./App.css";
 import {useEffect, useState} from "react";
 import ProductsList from "./Product/ProductsList";
-import SearchProduct from "./Search/search";
-import Cart from "./Cart/Cart";
+import SearchProduct from "./Search/Search";
 import {Routes, Route, Link} from "react-router-dom";
 import Login from "./auht/Login";
 import Register from "./auht/Register";
-import Header from "./Header/header";
+import Header from "./Header/Header";
 import {Container} from "@material-ui/core";
 
 const initialProducts = [
     {
         name: 'banana',
         id: 1,
-        count: 0,
+        count: 1,
+        price: 10,
         quantity: 10,
         categories: ['mig'],
 
@@ -21,34 +21,38 @@ const initialProducts = [
     {
         name: 'tan',
         id: 2,
-        count: 0,
+        count: 1,
+        price: 57,
         quantity: 10,
         categories: ['asa', 'mig'],
     },
     {
         name: 'ban',
         id: 3,
-        count: 0,
+        count: 1,
+        price: 8,
         quantity: 10,
         categories: ['kam'],
     },
     {
         name: 'man',
         id: 4,
-        count: 0,
+        count: 1,
+        price: 20,
         quantity: 10,
         categories: ['man'],
     },
     {
         name: 'kan',
         id: 5,
-        count: 0,
+        count: 1,
+        price: 45,
         quantity: 10,
         categories: ['van'],
     },
 ];
 
-const categoryOptions = ['', 'mig', 'tan', 'kam', 'man', 'van']
+const categoryOptions = ['mig', 'tan', 'kam', 'man', 'van']
 const cartLocal = JSON.parse(localStorage.getItem('cart'));
 
 function App() {
@@ -56,7 +60,8 @@ function App() {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectTerm, setSelectTerm] = useState(null)
     const [cart, setCart] = useState([])
-    const [state, setCartOpen] = useState(false)
+    const [toggle, setToggle] = useState(false);
+    const cartLocal = JSON.parse(localStorage.getItem('cart'));
 
     useEffect(() => {
         if (searchTerm || selectTerm) {
@@ -66,8 +71,8 @@ function App() {
         }
     }, [searchTerm, selectTerm])
 
+
     const searchProducts = () => {
-        // debugger
         const filteredProducts = initialProducts.filter(item => {
             if (searchTerm) {
                 return item.name.includes(searchTerm)
@@ -84,14 +89,32 @@ function App() {
     }
 
     const handleSelectChange = (event) => {
-        console.log(event.target.value);
         setSelectTerm(event.target.value)
     }
     const addCart = (id) => {
+        const cartLocal = JSON.parse(localStorage.getItem('cart'));
         const product = products.find(i => i.id === id)
         const cartCopy = [...cart, {...product}]
-        setCart(cartCopy)
-        localStorage.setItem("cart", JSON.stringify(cartCopy));
+        if (cartLocal) {
+            const pro = cartLocal.find(i => i.id === id)
+            if (pro) {
+                const itemsCopy = [...cart];
+                itemsCopy.map(i => {
+                    if (i.id === id) {
+                        i.count++
+                    }
+                })
+                setCart(itemsCopy)
+                localStorage.setItem("cart", JSON.stringify(itemsCopy));
+            } else {
+                setCart(cartCopy)
+                localStorage.setItem("cart", JSON.stringify(cartCopy));
+            }
+        } else {
+            setCart(cartCopy)
+            localStorage.setItem("cart", JSON.stringify(cartCopy));
+        }
+
     }
     const removeCart = (id) => {
         setCart((cart.filter(product => product.id !== id)))
@@ -103,50 +126,42 @@ function App() {
         localStorage.removeItem('cart')
         localStorage.setItem("cart", JSON.stringify(cartLocal));
     }
-    const onDecrement = (id) => {
-        const itemsCopy = [...cart];
-        itemsCopy.map(i => {
-            if (i.id === id) {
-                i.count--
-            }
-        })
-        localStorage.setItem("cart", JSON.stringify(itemsCopy));
-        setCart(itemsCopy)
-
-    }
-    const onIncrement = (id) => {
-        const itemsCopy = [...cart];
-        itemsCopy.map(i => {
-            if (i.id === id) {
-                i.count++
-            }
-        })
-        localStorage.setItem("cart", JSON.stringify(itemsCopy));
-        setCart(itemsCopy)
-    }
+    // const onDecrement = (id) => {
+    //     const itemsCopy = [...cart];
+    //     itemsCopy.map(i => {
+    //         if (i.id === id) {
+    //             i.count--
+    //         }
+    //     })
+    //     localStorage.setItem("cart", JSON.stringify(itemsCopy));
+    //     setCart(itemsCopy)
+    //
+    // }
+    // const onIncrement = (id) => {
+    //     const itemsCopy = [...cart];
+    //     itemsCopy.map(i => {
+    //         if (i.id === id) {
+    //             i.count++
+    //         }
+    //     })
+    //     localStorage.setItem("cart", JSON.stringify(itemsCopy));
+    //     setCart(itemsCopy)
+    // }
+    const toggleDrawer = (open) => {
+        setToggle(open);
+    };
 
     return (
         <>
             <Header
-                handleCart={() => setCartOpen(true)}
-                orderLen={cart ? cart.length : 0}
+                toggle={toggle}
+                toggleDrawer={toggleDrawer}
+                removeCart={removeCart}
+                orderLen={cartLocal ? cartLocal.length : 0}
 
             />
             <Container>
                 <Routes>
-                    <Route path="/card" element={
-                        <Cart
-                            cartOpen={state}
-                            onClose={() => {
-                                setCartOpen(false)
-                            }}
-                            cart={cart}
-                            cartLocal={cartLocal}
-                            removeCart={removeCart}
-                            onDecrement={onDecrement}
-                            onIncrement={onIncrement}
-                        />
-                    }/>
                     <Route path="/login" element={
                         <Login
                         />

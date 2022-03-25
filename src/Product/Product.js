@@ -1,5 +1,4 @@
 import {Grid, Card, CardMedia, CardContent, Typography, CardActions, Button} from "@material-ui/core";
-import {useEffect, useState} from "react";
 
 export default function Product({item, addCart}) {
     return (
@@ -10,7 +9,7 @@ export default function Product({item, addCart}) {
                 }}
             >
                 <CardMedia
-                    image={`https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg`}
+                    image={`https://wallpaperaccess.com/full/1101849.jpg`}
                     sx={{height: 100, width: 80}}
                     component='img'
                 />
@@ -23,13 +22,14 @@ export default function Product({item, addCart}) {
                     <Typography
                         variant='body1'
                         component='h5'
-                    >Price {item.count} $
+                    >Price {item.price} $
                     </Typography>
                 </CardContent>
                 <CardActions>
                     <Button
                         variant='contained'
-                        onClick={() => addCart(item.id)}>
+                        onClick={() => addCart(item.id)}
+                    >
                         Buy
                     </Button>
                 </CardActions>

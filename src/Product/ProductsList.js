@@ -1,8 +1,7 @@
 import Product from "./Product";
-import uuid from 'react-uuid'
 import {Grid} from "@material-ui/core";
 
-export default function BodyCounts({items, addCart,handleClose,open}) {
+export default function BodyCounts({items, addCart, handleClose, open}) {
     return (
         <Grid container spacing={2}>
             {items.map((item) => (
