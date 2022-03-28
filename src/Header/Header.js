@@ -2,9 +2,16 @@ import {AppBar, Toolbar, Badge, IconButton, Typography, Drawer} from "@material-
 import {ShoppingBasket} from "@material-ui/icons"
 import Basket from "../Cart/Basket";
 import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
 
-export default function Header({orderLen, toggleDrawer, toggle, removeCart}) {
+export default function Header({removeCart}) {
+    const cartLocal = JSON.parse(localStorage.getItem('cart'));
+    const orderLen = cartLocal?.length || 0
+    const [toggle, setToggle] = useState(false);
 
+    const toggleDrawer = (open) => {
+        setToggle(open);
+    };
     return (
         <AppBar position='static'
              >
