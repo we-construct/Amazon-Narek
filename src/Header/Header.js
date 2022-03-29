@@ -2,11 +2,11 @@ import {AppBar, Toolbar, Badge, IconButton, Typography, Drawer} from "@material-
 import {ShoppingBasket} from "@material-ui/icons"
 import Basket from "../Cart/Basket";
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
-export default function Header({removeCart, cart, setCart ,setSavedCart}) {
+export default function Header({removeCart, cart, setCart, setSavedCart}) {
     const cartLocal = JSON.parse(localStorage.getItem('cart'));
-    const orderLen = cartLocal?.length || 0
+    const orderLen = cartLocal?.length || 0;
     const [toggle, setToggle] = useState(false);
 
     const toggleDrawer = (open) => {
@@ -14,10 +14,10 @@ export default function Header({removeCart, cart, setCart ,setSavedCart}) {
     };
     return (
         <AppBar position='static'
-             >
+        >
             <Toolbar>
-                <Link to="/" style={{ textDecoration: 'none' }}>
-                    <Typography style={{ color: 'white' }}>Shop</Typography>
+                <Link to="/" style={{textDecoration: 'none'}}>
+                    <Typography style={{color: 'white'}}>Shop</Typography>
                 </Link>
                 <IconButton
                     color='inherit'
@@ -41,7 +41,6 @@ export default function Header({removeCart, cart, setCart ,setSavedCart}) {
                         cart={cart}
                         setCart={setCart}
                         setSavedCart={setSavedCart}
-
                     />
                 </Drawer>
             </Toolbar>

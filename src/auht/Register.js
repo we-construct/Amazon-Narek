@@ -6,34 +6,34 @@ export default function Register() {
 
     const [errorMessages, setErrorMessages] = useState({});
     const [isRegistered, setIsRegistered] = useState(false);
-    const users = []
+    const users = [];
     const errors = {
         email: "user exist",
-        re_pass: "password not the same",
+        re_pass: "password not the same"
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const {first_name, last_name, email, password, re_pass} = document.forms[0]
+        const {first_name, last_name, email, password, re_pass} = document.forms[0];
 
         const user = {
             first_name: first_name.value,
             last_name: last_name.value,
             email: email.value,
             password: password.value
-        }
+        };
 
-        localStorage.setItem('users', JSON.stringify(users))
+        localStorage.setItem('users', JSON.stringify(users));
         const usersLocal = JSON.parse(localStorage.getItem('users'));
-        const userData = usersLocal.find((item) => item.email === email.value)
+        const userData = usersLocal.find((item) => item.email === email.value);
         if (userData) {
             setErrorMessages({name: "email", message: errors.email});
         } else if (password.value !== re_pass.value) {
             setErrorMessages({name: "re_pass", message: errors.re_pass});
         } else {
-            users.push(user)
-            localStorage.setItem('users', JSON.stringify(users))
+            users.push(user);
+            localStorage.setItem('users', JSON.stringify(users));
             setIsRegistered(true);
         }
     };
@@ -69,12 +69,13 @@ export default function Register() {
                     {renderErrorMessage("re_pass")}
                 </div>
                 <div style={{display: "flex"}}>
-                <div className="button-container">
-                    <input type="submit" value='Register'/>
-                </div>
-                <div className="button-container" style={{marginLeft:80}}>
-                    <Link to="/login" style={{ textDecoration: 'none' }}>  <input type="submit" value='Sign In'/>  </Link>
-                </div>
+                    <div className="button-container">
+                        <input type="submit" value='Register'/>
+                    </div>
+                    <div className="button-container" style={{marginLeft: 80}}>
+                        <Link to="/login" style={{textDecoration: 'none'}}> <input type="submit" value='Sign In'/>
+                        </Link>
+                    </div>
                 </div>
             </form>
         </div>

@@ -16,8 +16,7 @@ export default function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const usersLocal = JSON.parse(localStorage.getItem('users'));
-        const {email, password} = document.forms[0]
-
+        const {email, password} = document.forms[0];
         const userData = usersLocal.find((user) => user.email === email.value);
 
         if (userData) {

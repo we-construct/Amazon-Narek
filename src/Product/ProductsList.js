@@ -41,20 +41,20 @@ const initialProducts = [
     },
 ];
 
-const categoryOptions = ['mig', 'tan', 'kam', 'man', 'van']
-export default function BodyCounts({cart, setCart, setSavedCart}) {
-    const [products, setProducts] = useState(initialProducts)
+const categoryOptions = ['mig', 'tan', 'kam', 'man', 'van'];
+export default function BodyCounts({cart, setCart}) {
+    const [products, setProducts] = useState(initialProducts);
 
     const searchProducts = (searchTerm, selectTerm) => {
         const filteredProducts = initialProducts.filter(item => {
             if (searchTerm) {
-                return item.name.includes(searchTerm)
+                return item.name.includes(searchTerm);
             }
             if (selectTerm && selectTerm !== '') {
-                return item.categories.includes(selectTerm)
+                return item.categories.includes(selectTerm);
             }
         })
-        setProducts(filteredProducts)
+        setProducts(filteredProducts);
     }
 
     return (
@@ -73,7 +73,6 @@ export default function BodyCounts({cart, setCart, setSavedCart}) {
                              cart={cart}
                              setCart={setCart}
                     />
-
                 ))}
             </Grid>
         </>

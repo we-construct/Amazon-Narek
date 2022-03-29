@@ -4,22 +4,22 @@ import {useEffect, useState} from "react";
 
 export default function SearchProduct({categoryOptions, initialProducts, searchProducts, setProducts}) {
 
-    const [searchTerm, setSearchTerm] = useState("")
-    const [selectTerm, setSelectTerm] = useState(null)
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectTerm, setSelectTerm] = useState(null);
     useEffect(() => {
         if (searchTerm || selectTerm) {
             searchProducts(searchTerm, selectTerm);
         } else {
-            setProducts(initialProducts)
+            setProducts(initialProducts);
         }
-    }, [searchTerm, selectTerm])
+    }, [searchTerm, selectTerm]);
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value)
+        setSearchTerm(event.target.value);
     }
 
     const handleSelectChange = (event) => {
-        setSelectTerm(event.target.value)
+        setSelectTerm(event.target.value);
     }
 
     return (

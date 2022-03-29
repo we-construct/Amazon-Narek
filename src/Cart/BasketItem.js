@@ -1,7 +1,7 @@
-import { IconButton, ListItem, Typography} from "@material-ui/core";
+import {IconButton, ListItem, Typography} from "@material-ui/core";
 import {Close} from "@material-ui/icons";
 
-export default function BasketItem({removeCart, item ,handleSave}) {
+export default function BasketItem({removeCart, item, handleSave}) {
     return (
         <ListItem>
             <Typography
@@ -12,7 +12,7 @@ export default function BasketItem({removeCart, item ,handleSave}) {
             <Typography
                 style={{display: 'inline-block'}}
                 variant='caption'
-                onClick={()=> handleSave(item.id)}
+                onClick={() => handleSave(item.id)}
             >
                 Save for later
             </Typography>

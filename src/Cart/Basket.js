@@ -2,46 +2,45 @@ import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Typography}
 import BasketItem from "./BasketItem";
 import {ShoppingBasket} from "@material-ui/icons";
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useContext} from 'react';
 import {Context} from "../App";
 
 export default function Basket({toggleDrawer, cart, setCart, setSavedCart}) {
-    const value = useContext(Context)
+    const value = useContext(Context);
     const cartLocal = JSON.parse(localStorage.getItem('cart'));
-    const savedLocal = JSON.parse(localStorage.getItem('saveForLater'));
 
     useEffect(() => {
-        setSavedCart(value)
-    }, [value])
+        setSavedCart(value);
+    }, [value]);
 
     const handleSave = (id) => {
-        const product = cart.find(i => i.id === id)
-        const savedPro = value.find(i => i.id === id)
+        const product = cart.find(i => i.id === id);
+        const savedPro = value.find(i => i.id === id);
         if (savedPro) {
             value.map(i => {
                 if (i.id === id) {
-                    i.count += product.count
+                    i.count += product.count;
                 }
             })
-            setSavedCart(value)
+            setSavedCart(value);
             localStorage.setItem("cartForLater", JSON.stringify(value));
-            removeCart(id)
+            removeCart(id);
         } else {
-            const cartCopy = [...value, {...product}]
-            setSavedCart(cartCopy)
+            const cartCopy = [...value, {...product}];
+            setSavedCart(cartCopy);
             localStorage.setItem("cartForLater", JSON.stringify(cartCopy));
-            removeCart(id)
+            removeCart(id);
         }
     }
     const removeCart = (id) => {
-        setCart((cart.filter(product => product.id !== id)))
+        setCart((cart.filter(product => product.id !== id)));
         const cartLocal = JSON.parse(localStorage.getItem('cart'));
         let index = cartLocal.findIndex(function (product) {
             return product.id === id;
         })
         if (index !== -1) cartLocal.splice(index, 1);
-        localStorage.removeItem('cart')
+        localStorage.removeItem('cart');
         localStorage.setItem("cart", JSON.stringify(cartLocal));
     }
     return (
