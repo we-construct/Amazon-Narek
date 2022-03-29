@@ -9,13 +9,13 @@ export default function BasketItem({removeCart, item ,handleSave}) {
                 variant='body1'>
                 {item.name}{' '}{item.price}$ * {item.count}
             </Typography>
-            {/*<Typography*/}
-            {/*    style={{display: 'inline-block'}}*/}
-            {/*    variant='caption'*/}
-            {/*    onClick={()=> handleSave(item.id)}*/}
-            {/*>*/}
-            {/*    Save for later*/}
-            {/*</Typography>*/}
+            <Typography
+                style={{display: 'inline-block'}}
+                variant='caption'
+                onClick={()=> handleSave(item.id)}
+            >
+                Save for later
+            </Typography>
             <IconButton
                 onClick={() => removeCart(item.id)}>
                 <Close/>

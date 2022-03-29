@@ -7,7 +7,6 @@ const initialProducts = [
     {
         name: 'banana',
         id: 1,
-        count: 1,
         price: 10,
         quantity: 10,
         categories: ['mig'],
@@ -15,7 +14,6 @@ const initialProducts = [
     {
         name: 'tan',
         id: 2,
-        count: 1,
         price: 57,
         quantity: 10,
         categories: ['asa', 'mig'],
@@ -23,7 +21,6 @@ const initialProducts = [
     {
         name: 'ban',
         id: 3,
-        count: 1,
         price: 8,
         quantity: 10,
         categories: ['kam'],
@@ -31,7 +28,6 @@ const initialProducts = [
     {
         name: 'man',
         id: 4,
-        count: 1,
         price: 20,
         quantity: 10,
         categories: ['man'],
@@ -39,7 +35,6 @@ const initialProducts = [
     {
         name: 'kan',
         id: 5,
-        count: 1,
         price: 45,
         quantity: 10,
         categories: ['van'],
@@ -47,7 +42,7 @@ const initialProducts = [
 ];
 
 const categoryOptions = ['mig', 'tan', 'kam', 'man', 'van']
-export default function BodyCounts({}) {
+export default function BodyCounts({cart, setCart, setSavedCart}) {
     const [products, setProducts] = useState(initialProducts)
 
     const searchProducts = (searchTerm, selectTerm) => {
@@ -64,22 +59,23 @@ export default function BodyCounts({}) {
 
     return (
         <>
-        <SearchProduct
-            searchProducts={searchProducts}
-            initialProducts={initialProducts}
-            categoryOptions={categoryOptions}
-            setProducts={setProducts}
-        />
-        <Grid container spacing={2}>
-            {products.map((item) => (
-                <Product key={item.id}
-                         item={item}
-                         initialProducts={initialProducts}
-                         max={item.quantity}
-                />
+            <SearchProduct
+                searchProducts={searchProducts}
+                initialProducts={initialProducts}
+                categoryOptions={categoryOptions}
+                setProducts={setProducts}
+            />
+            <Grid container spacing={2}>
+                {products.map((item) => (
+                    <Product key={item.id}
+                             item={item}
+                             initialProducts={initialProducts}
+                             cart={cart}
+                             setCart={setCart}
+                    />
 
-            ))}
-        </Grid>
-</>
+                ))}
+            </Grid>
+        </>
     );
 }

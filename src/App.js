@@ -5,11 +5,15 @@ import Login from "./auht/Login";
 import Register from "./auht/Register";
 import Header from "./Header/Header";
 import {Container} from "@material-ui/core";
+import {createContext, useState} from 'react';
+export const Context = createContext([]);
 
 function App() {
+    const [cart, setCart] = useState([])
+    const [savedCart, setSavedCart] = useState([])
     return (
-        <>
-            <Header />
+        <Context.Provider value={savedCart}>
+            <Header setCart={setCart} cart={cart} setSavedCart={setSavedCart} />
             <Container>
                 <Routes>
                     <Route path="/login" element={
@@ -20,12 +24,12 @@ function App() {
                     }/>
                     <Route path="/" element={
                         <div>
-                            <ProductsList />
+                            <ProductsList setCart={setCart} cart={cart}/>
                         </div>
                     }/>
                 </Routes>
             </Container>
-        </>
+        </Context.Provider>
     );
 }
 

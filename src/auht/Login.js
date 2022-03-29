@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "../Css/loginStyless.css";
-import {Link, Route, Routes} from "react-router-dom";
-import Register from "./Register";
+import {Link} from "react-router-dom";
+
 
 export default function Login() {
     const [errorMessages, setErrorMessages] = useState({});

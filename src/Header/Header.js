@@ -4,7 +4,7 @@ import Basket from "../Cart/Basket";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-export default function Header({removeCart}) {
+export default function Header({removeCart, cart, setCart ,setSavedCart}) {
     const cartLocal = JSON.parse(localStorage.getItem('cart'));
     const orderLen = cartLocal?.length || 0
     const [toggle, setToggle] = useState(false);
@@ -38,6 +38,9 @@ export default function Header({removeCart}) {
                     <Basket
                         toggleDrawer={toggleDrawer}
                         removeCart={removeCart}
+                        cart={cart}
+                        setCart={setCart}
+                        setSavedCart={setSavedCart}
 
                     />
                 </Drawer>

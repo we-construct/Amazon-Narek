@@ -1,37 +1,48 @@
 import {Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, TextField} from "@material-ui/core";
 import {useEffect, useState} from "react";
 
-export default function Product({item,initialProducts,max}) {
+export default function Product({item, initialProducts, setCart, cart}) {
     const [products, setProducts] = useState(initialProducts)
-    const [cart, setCart] = useState([])
+
     const [count, setCount] = useState(1)
 
     useEffect(() => {
             const cartLocal = JSON.parse(localStorage.getItem('cart')) || [];
             setCart(cartLocal)
         },
-        [cart])
+        [])
 
     const addCart = (id) => {
+
         const product = products.find(i => i.id === id)
+        console.log('123213', product)
         const pro = cart.find(i => i.id === id)
         if (pro) {
             cart.map(i => {
                 if (i.id === id) {
-                    i.count += count
+                    i['count'] += count
                 }
             })
             setCart(cart)
             localStorage.setItem("cart", JSON.stringify(cart));
         } else {
-            const cartCopy = [...cart, {...product}]
+            const pro = {...product}
+            pro['count'] = 0
+            pro['count'] += count
+            const cartCopy = [...cart, {...pro}]
             setCart(cartCopy)
             localStorage.setItem("cart", JSON.stringify(cartCopy));
         }
+        localStorage.setItem("product", JSON.stringify(product));
     }
 
-   const  handleChange = (value) => {
-       setCount(Number(value));
+    const handleChange = (value) => {
+        if (value) {
+            setCount(Number(value));
+        } else {
+            setCount(1);
+
+        }
     }
     return (
         <Grid item xs={12} md={4}>
@@ -67,8 +78,8 @@ export default function Product({item,initialProducts,max}) {
                     <TextField
                         label='Qty'
                         type='number'
-                        onChange={(event)=>handleChange(event.target.value)}
-                        inputProps={{ min: 1, max: 10 }}
+                        onChange={(event) => handleChange(event.target.value)}
+                        inputProps={{min: 1, max: 10}}
                     />
 
 

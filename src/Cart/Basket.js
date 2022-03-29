@@ -2,18 +2,38 @@ import {Button, Divider, List, ListItem, ListItemIcon, ListItemText, Typography}
 import BasketItem from "./BasketItem";
 import {ShoppingBasket} from "@material-ui/icons";
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useContext} from 'react';
+import {Context} from "../App";
 
-export default function Basket({toggleDrawer}) {
-    const [cart, setCart] = useState([])
+export default function Basket({toggleDrawer, cart, setCart, setSavedCart}) {
+    const value = useContext(Context)
     const cartLocal = JSON.parse(localStorage.getItem('cart'));
-    // const [later,setLater] = useState([])
+    const savedLocal = JSON.parse(localStorage.getItem('saveForLater'));
 
-    //
-    // const handleSave = (id) => {
-    //     const savedItems = []
-    //    removeCart(id)
-    // }
+    useEffect(() => {
+        setSavedCart(value)
+    }, [value])
+
+    const handleSave = (id) => {
+        const product = cart.find(i => i.id === id)
+        const savedPro = value.find(i => i.id === id)
+        if (savedPro) {
+            value.map(i => {
+                if (i.id === id) {
+                    i.count += product.count
+                }
+            })
+            setSavedCart(value)
+            localStorage.setItem("cartForLater", JSON.stringify(value));
+            removeCart(id)
+        } else {
+            const cartCopy = [...value, {...product}]
+            setSavedCart(cartCopy)
+            localStorage.setItem("cartForLater", JSON.stringify(cartCopy));
+            removeCart(id)
+        }
+    }
     const removeCart = (id) => {
         setCart((cart.filter(product => product.id !== id)))
         const cartLocal = JSON.parse(localStorage.getItem('cart'));
@@ -35,7 +55,7 @@ export default function Basket({toggleDrawer}) {
                 </ListItem>
                 <Divider/>
                 {
-                    !cartLocal.length > 0 ? (
+                    !cartLocal || !cartLocal.length > 0 ? (
                             <ListItem>
                                 Basket Empty!
                             </ListItem>
@@ -46,7 +66,7 @@ export default function Basket({toggleDrawer}) {
                                     <BasketItem key={item.id}
                                                 item={item}
                                                 removeCart={removeCart}
-                                                // handleSave={handleSave}
+                                                handleSave={handleSave}
                                     />
                                 )))}
                                 <Divider/>

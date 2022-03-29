@@ -2,7 +2,7 @@ import uuid from "react-uuid";
 import {InputLabel, MenuItem, Select, TextField, Divider, FormControl} from "@material-ui/core";
 import {useEffect, useState} from "react";
 
-export default function SearchProduct({categoryOptions,initialProducts,searchProducts,setProducts}) {
+export default function SearchProduct({categoryOptions, initialProducts, searchProducts, setProducts}) {
 
     const [searchTerm, setSearchTerm] = useState("")
     const [selectTerm, setSelectTerm] = useState(null)
